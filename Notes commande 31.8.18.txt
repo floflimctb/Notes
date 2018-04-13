@@ -80,17 +80,18 @@ git commit //Enregistre les modifications du repository
 
 git log //Affiche la liste de tous les commits réalisés
 
+git remote add origin https://github.com/floflimctb/Notes.git
+
 git push origin master //Envoie modifs dans la branche master du remote origin
 
 git pull //Recuperer les fichiers des autres
 
 git blam index.html //Historique des modifications
 
-git remote add origin https://github.com/floflimctb/test2.git
+git checkout SHADuCommit //
 
-git push -u origin master
+git clone //Recuperer les fichiers de la branche master origine
 
-git checkout SHADuCommit 
 
 Vocabulaire git : 
 	repository git (repo) : répertoire (dossier) dans lequel notre allons appliquer git

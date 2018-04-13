@@ -108,7 +108,40 @@ Chaines de caracteres :
         -*/ "Bora-Bora"[longueurSport - 1] /* a
     Parcourir une chaine caractere par caractere :
         -*/ for (var i = 0; i < "odile".length; i++) { console.log("odile"[i]); } /* 
-        
+    
+-Objets :
+    -Declaration :
+        -*/ var stylo = {
+                type: "bille",
+                couleur: "bleu",
+                marque: "Bic" }; /*
+        -Possibilite de rajouter de nouvelles proprietes a postiori :
+            -*/ stylo.prix = 2.5; /*
+    -Constructeur : 
+        -*/ function MonObjet() {
+                // Initialisation de l'objet
+            }
+            // Instanciation d'un objet à partir du constructeur
+            var monObj = new MonObjet(); /*
+    -Acceder aux valeurs d'un objet:
+        -Utiliser la notation pointee :
+            -*/ stylo.type /* "bille"
+        -Autre possibilite moins utilisee :
+            -*/ stylo['type'] /*
+    -*/ var perso = {
+            nom: "Aurora",
+            sante: 150,
+            force: 25,
+
+            // Renvoie la description du personnage
+            decrire: function () { //Propriete de perso qui est une fonction qui renvoie la description du personnage sous forme textuelle
+                var description = this.nom + " a " + this.sante + " points de vie et " +
+                    this.force + " en force"; //this : l'objet sur lequel la methode a ete appele
+                return description;
+            } //Cette propriete est appele methode
+        }; /*
+
+
 -*/  /*
         
         
@@ -120,6 +153,10 @@ Vocabulaire :
     -Type dynamique : language ne demandant pas de définir le type de variable
     -Type statique : language demandant le type de variable
     -Notation pointee : fait d'ajouter des points comme */ .lenght /*
-    -Methodes : de type */ .toUpperCase() /*
+    -Methodes : 
+        -de type */ .toUpperCase() /*
+        -Propriete dont la valeur est une fonction
+    -Constructeur : Fonction qui cree un objet, l'initialise
+    -Instanciation : Creation d'un objet a partir d'un constructeur
         
 */

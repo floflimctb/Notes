@@ -1,0 +1,165 @@
+brackets<!--Base-->
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="style.css" />
+		<title>Titre</title>
+	</head>
+
+	<body>
+		
+	</body>
+</html>
+
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8" /> <!--Prise en charge de la plupart des caraceres speciaux-->
+		<link rel="stylesheet" href="style.css" /> <!--Indique que ce fichier html est lie au fichier style.css-->
+		<style> 
+			p
+			{
+				color: blue;
+			}
+		</style> <!--Insere code css-->
+		<title>Titre</title> <!--Titre de la page-->
+	</head>
+
+	<body>
+		
+	</body>
+</html>
+
+
+
+A eviter en HTML !
+Accents, majuscules et espaces dans noms de fichiers/dossiers
+
+TEXTE
+<p></p> <!--Paragraphe-->
+<br /> <!--Saut de ligne-->
+<h1></h1>, <h2></h2>,... <!--Titres-->
+<em></em> <!--Texte en valeur-->
+<strong></strong> <!--Texte bien en vaLeur-->
+<mark></mark> <!--Texte ressorti visiuellement-->
+<ul> <!--Delimite une liste non ordonee--> <li>Element de liste</li></ul> 
+<ol><li>Element de liste 1</li></ol> <!--Liste ordonee-->
+<dl> <!--Delimite une liste de definitions--> <dt>Terme</dt><dd>Definition</dd></dl>
+<span class="intro">Rien</span> <!----> 
+<figure><img src="images/blocnotes.png" alt="Bloc-Notes" /><figcaption>Le logiciel Bloc-Notes</figcaption></figure> <!--Figure : tout ce qui vient illustrer le texte avec legende : "Le logiciel Bloc-Notes"-->
+<table><!--Tableau--> <!--voir photo-->
+<caption><!--Titre du tableau--></caption>
+<tr><!--Ligne--> <th><!--Entete--></th> </tr>
+<tr> <td><!--Contenu d'une cellule--></td> 
+<td colspan="2"></td><!--Fusion horizontale de 2 cellules-->
+<td rowspan="2"></td><!--Fusion veritcale de 2 cellules--></tr> </table>
+<thead></thead><!--Entete d'un tableau-->
+<tbody></tbody><!--Corps d'un tableau-->
+<tfoot></tfoot><!--pied du tableau-->
+
+LIENS
+<a href="site.com" title="C'est un site" target="_blank">Site</a> <!--Liens (remplacer tous les & par &amp) avec infobulle : "C'est un site", qui s'ouvre dans un nouvel onglet-->
+<a href="../page2.html"></a> <!--Lien relatif venant d'un dossier parent-->
+<a href="contenu/page2.html"></a> <!--Lien venant d'un sous-dossier-->
+<h2 id="mon_ancre">Titre</h2> <!--Creation d'ancre pour "Titre"-->
+<a href="#mon_ancre">Aller vers l'ancre</a> <!--Lien vers ancre "mon_ancre" :"Titre"-->
+<a href="ancres.html#rollers"></a> <!--Lien vers une ancre (rollers) situee dans une autre page (ancres.html)-->
+<a href="mailto:floflo.brotons@gmail.com"></a> <!--Lien pour envoyer email-->
+<a href="monfichier.zip"></a> <!--Lien pour telecharger un fichier-->
+ 
+IMAGES
+<!--Une photo : utilisez un JPEG.
+N'importe quel graphique avec peu de couleurs (moins de 256) : utilisez un PNG 8 bits ou éventuellement un GIF.
+N'importe quel graphique avec beaucoup de couleurs : utilisez un PNG 24 bits.
+Une image animée : utilisez un GIF animé.-->
+<p><a href="img/montagne_mini.jpg"><img src="image/montagne.jpg" alt="Photo de montagne"  title="Cliquez pour agrandir" /></a></p> <!--Image src et alt obligatoire a placer dans <p> si elle n'apporte aucune information (c'est juste une illustration pour décorer), si elle apporte une information : placez l'image dans une <figure>-->
+
+BALISES STRUCTURANTES
+<header> <!--En-tete--></header>
+<footer> <!--Pied de page--></footer>
+<nav> <!--Liens de navigations--></nav>
+<section> <!--Section-->
+	<artcile> <!--Article--></artcile>
+	<aside> <!--Informations complementaires--></aside>
+</section>
+
+FORMULAIRES
+<form method="post ou get" action="traitement.php" enctype="multipart/form-data"></form><!--Cree un formulaire a mettre obligatoirement dans une balise de type block methode post = ne passe par l'url, get : par url; enctype="multipart/form-data" permet l'envoie de fichiers dans le formulaire-->
+<label for="pseudo">Votre pseudo</label><input type="text" name="pseudo" id="pseudo" placeholder="Ex : Zozor" size="30" maxlength="10"/><!--Zone de texte monoligne, ici nomme pseudo; placeholder: Indication sur le champs; size: taille du champs en caracteres; value: pre-remplir de le champs avec une valeur-->
+types possibles pour input :
+text
+password
+email
+url
+tel
+number <!--Personalisable avec attributs min : valeur minimale autorisee; max; step: pas de deplacement-->
+range <!--Curseur-->
+color
+date
+time <!--Heure-->
+week
+month
+datetime <!--Date et heure vec gestion du decalage horaire-->
+datetime-local <!--sans-->
+search
+checkbox <!--Cases a cocher : Donner l'attribut checked pour que la case soit cochee par defaut-->
+radio <!--zone d'option, un seul choix parmis une liste, pour chaque option: meme nom name, mais value differente; posssibilite de mettre checked-->
+submit <!--Bouton d'envoi, renvoi a la page indiquee dans l'attribut action-->
+reset <!--remise a zero du formulaire-->
+image <!--equivalent de submit represente par une image a referencer avec attribut src-->
+button <!--bouton generique-->
+hidden <!--Champs caché-->
+file <!--Fichier-->
+<textarea name="ameliorer" id="ameliorer" rows="5" cols="5"><!--Zone de texte multiligne; rows: nombre de lignes pouvant etre affichees simultanement; cols: nombre de colonnes--></textarea>
+<select><!--Liste deroulante--><optgroup label="Europe"><!--groupe les options--><option value="france" selected>France<!--Possibilite d'utiliser l'attribut selected sur option--> </option></optgroup><!--Element de liste--></select>
+<fieldset><!--Regroupe les champs avec possibilite d'y ajouter une :--><legend></legend></fieldset>
+attributs :
+autofocus <!--Place le curseur automatiquement sur un des champs-->
+required <!--Champs obligatoire-->
+
+AUDIOS
+<!--Formats:
+MP3 : vous ne pouvez pas ne pas en avoir entendu parler ! C'est l'un des plus vieux, mais aussi l'un des plus compatibles (tous les appareils savent lire des MP3), ce qui fait qu'il est toujours très utilisé aujourd'hui.
+AAC : utilisé majoritairement par Apple sur iTunes, c'est un format de bonne qualité. Les iPod, iPhone et autres iPad savent les lire sans problème.
+OGG : le format Ogg Vorbis est très répandu dans le monde du logiciel libre, notamment sous Linux. Ce format a l'avantage d'être libre, c'est-à-dire qu'il n'est protégé par aucun brevet.
+WAV (format non compressé) : évitez autant que possible de l'utiliser car le fichier est très volumineux avec ce format. C'est un peu l'équivalent du Bitmap (BMP) pour l'audio.-->
+<audio src="home.mp3" controls autoplay loop>Veuillez mettre a jour votre nav</audio>
+<audio><source src="hype_home.mp3"><source src="hype_home.ogg"></audio>
+<!--Attributs :
+controls: pour ajouter les boutons « Lecture », « Pause » et la barre de défilement. Cela peut sembler indispensable, et vous vous demandez peut-être pourquoi cela n'y figure pas par défaut, mais certains sites web préfèrent créer eux-mêmes leurs propres boutons et commander la lecture avec du JavaScript.
+width: pour modifier la largeur de l'outil de lecture audio.
+loop: la musique sera jouée en boucle.
+autoplay: la musique sera jouée dès le chargement de la page. Évitez d'en abuser, c'est en général irritant d'arriver sur un site qui joue de la musique tout seul !
+preload: indique si la musique peut être préchargée dès le chargement de la page ou non. Cet attribut peut prendre les valeurs :
+	auto(par défaut) : le navigateur décide s'il doit précharger toute la musique, uniquement les métadonnées ou rien du tout.
+	metadata: charge uniquement les métadonnées (durée, etc.).
+	none: pas de préchargement. Utile si vous ne voulez pas gaspiller de bande passante sur votre site.-->
+
+VIDEOS
+<!--Formats :
+Un format conteneur : c'est un peu comme une boîte qui va servir à contenir les deux éléments ci-dessous. On reconnaît en général le type de conteneur à l'extension du fichier : AVI, MP4, MKV…
+Un codec audio : c'est le format du son de la vidéo, généralement compressé. Nous venons de les voir, on utilise les mêmes : MP3, AAC, OGG…
+Un codec vidéo : c'est le format qui va compresser les images. C'est là que les choses se corsent, car ces formats sont complexes et on ne peut pas toujours les utiliser gratuitement. Les principaux à connaître pour le Web sont :
+	H.264 : l'un des plus puissants et des plus utilisés aujourd'hui… mais il n'est pas 100% gratuit. En fait, on peut l'utiliser gratuitement dans certains cas (comme la diffusion de vidéos sur un site web personnel), mais il y a un flou juridique qui fait qu'il est risqué de l'utiliser à tout va.
+	Ogg Theora : un codec gratuit et libre de droits, mais moins puissant que H.264. Il est bien reconnu sous Linux mais, sous Windows, il faut installer des programmes pour pouvoir le lire.
+	WebM : un autre codec gratuit et libre de droits, plus récent. Proposé par Google, c'est le concurrent le plus sérieux de H.264 à l'heure actuelle.-->
+<video src="video.webm"></video>
+<video controls poster="sintel.jpg" width="600">
+    <source src="sintel.mp4">
+    <source src="sintel.webm">
+    <source src="sintel.ogv">
+</video>
+<!--Attributs :
+poster: image à afficher à la place de la vidéo tant que celle-ci n'est pas lancée. Par défaut, le navigateur prend la première image de la vidéo mais, comme il s'agit souvent d'une image noire ou d'une image peu représentative de la vidéo, je vous conseille d'en créer une ! Vous pouvez tout simplement faire une capture d'écran d'un moment de la vidéo.
+controls: pour ajouter les boutons « Lecture », « Pause » et la barre de défilement. Cela peut sembler indispensable, mais certains sites web préfèrent créer eux-mêmes leurs propres boutons et commander la lecture avec du JavaScript. En ce qui nous concerne, ce sera largement suffisant !
+width: pour modifier la largeur de la vidéo.
+height: pour modifier la hauteur de la vidéo.
+loop: la vidéo sera jouée en boucle.
+autoplay: la vidéo sera jouée dès le chargement de la page. Là encore, évitez d'en abuser, c'est en général irritant d'arriver sur un site qui lance quelque chose tout seul !
+preload: indique si la vidéo peut être préchargée dès le chargement de la page ou non. Cet attribut peut prendre les valeurs :
+	auto(par défaut) : le navigateur décide s'il doit précharger toute la vidéo, uniquement les métadonnées ou rien du tout.
+	metadata: charge uniquement les métadonnées (durée, dimensions, etc.).
+	none: pas de préchargement. Utile si vous souhaitez éviter le gaspillage de bande passante sur votre site.-->

@@ -1,0 +1,100 @@
+cd //onnaître votre répertoire courant
+	pwd //Linux
+
+dir //Voir la liste des fichiers et répertoires dans le dossier courant; rajouter -l pour mettre sous forme de liste et -a pour rajouter des infos, possiblité de marquer -la
+	ls //Linux
+	tree mesDocuments //Affiche l'arborescence de répertoires graphiquement
+
+type
+
+dir monDossier >listeFichier.txt //Etablit une liste des fichiers contenus dans un repertoire 
+	/h //Affiche les dossiers cachés
+	/s //En plus du contenu du repertoire courant, le contenu des sous dossiers du repertoire seront affichés
+
+cd Applications //permet de vous placer dans un répertoire
+	cd .. //Permet de revenir au repertoire parent
+	cd ~ //Permet de revenir au repertoire principal
+
+touch fichieracreer.txt //Creer un fichier
+
+mkdir repertoireacreer //Permet de creer un dossier
+
+md nouveau/nouveau1/nouveau2 //Permet de créer une arborescence de dossiers
+
+cat monfichier.txt //Affiche le contenu d'un fichier
+
+xcopy monDossier backup //copie tous les fichiers du repertoire monDossier vers backup
+	/? //Aide
+	/D/j-m-a Copie les fichiers modifiés à partir de la date spécifiée (S'il n'y a pas de date spécifiée, copie uniquement les fichiers dont l'heure de la source est plus récente que l'heure de destination)
+	/EXCLUDE:fich1[+fich2][\obj\.obj]... //Exclut de la copie des fichiers : Dans l'exemple, exclut tous les fichiers du repertoire obj dont l'extension est .obj
+	/P //Confirme la création de chaque fichier
+	/S //opie les répertoires et sous-répertoires à l'exception des répertoires vides
+	/E //Copie les répertoires et sous-répertoires y comprus les répertoires vides
+	/T //Créé la structure des répertoires mais ne copie pas les fichiers (ajouter /E pour inclure les sous-répertoires vides)
+	/V //Vérifie la taille de chaque nouveau fichier
+	/W //Demande d'appuyer sur une touche avant la copie
+	/C //Continue la copie même si erreurs
+	/Q //N'affiche pas les noms des fichiers lors de la copie
+	/L //Affiche les fichiers devant être copiés
+	/U //Copie seulement les fichiers existants déjà dans la destination
+
+ren fichier1 fichier2 //Renomme le fichier1 en fichier2
+	ren *.txt *.doc //Change l'extension de tous les fichiers txt en doc
+
+del 
+
+shutdown //Arrête ou redémarre un ordinateur
+	/? //Aide
+	/i //Affiche GUI (doit être première option)
+	/l //Ferme la session (Ne pas utiliser avec /m ou /d)
+	/s //Arrête
+	/r //Arret et redémarre
+	/a //Annule un arrêt du système
+	/h //Veille prolongée
+	/m \\ordinateur //Specifie l'ordinateur cible
+	/t xxx Définit la période d'arrêt de délai avant l'arrêt au bout de xxx secondes
+	/f Ferme les applications
+
+cls //Efface le contenu de la commande
+
+vim //Permet de modifier un fichier
+
+
+
+git config --global user.name "Votre nom ou pseudo" //Configure le pesudo
+
+git config --global user.email "votre@email.com" //Configure l'adresse email en relation avec Github
+
+git init //Active un dossier comme repository git
+
+git add checklist-vacances.md //Ajoute un fichier a l'index git
+
+git add . //Ajoute tous les fichiers du repertoire a l'index
+
+git status //Affiche l'état : si tout va bien, si certains sont à ajotuer à l'index,...
+
+git commit //Enregistre les modifications du repository
+	-m "Ajouté text.txt" //Permet de faire correspondre un message au commit
+	--amend -m "Ajouté texte.txt" //Permet de modifier le message du dernier commit
+	-a //Met à jour les fichiers déjà existants dans l'index
+
+git log //Affiche la liste de tous les commits réalisés
+
+git push origin master //Envoie modifs dans la branche master du remote origin
+
+git pull //Recuperer les fichiers des autres
+
+git blam index.html //Historique des modifications
+
+git remote add origin https://github.com/floflimctb/test2.git
+
+git push -u origin master
+
+git checkout SHADuCommit 
+
+Vocabulaire git : 
+	repository git (repo) : répertoire (dossier) dans lequel notre allons appliquer git
+	index : tous les fichiers dont git doit faire le suivi
+	commit : Modification du repo accompagnée d'un message
+	branche : 
+	remote :

@@ -1,0 +1,183 @@
+/*Des noms de balises : on écrit les noms des balises dont on veut modifier l'apparence. 
+Par exemple, si je veux modifier l'apparence de tous les paragraphes <p>, je dois écrire p.
+Des propriétés CSS : les « effets de style » de la page sont rangés dans des propriétés. 
+Il y a par exemple la propriété color qui permet d'indiquer la couleur du texte, 
+font-size qui permet d'indiquer la taille du texte, etc. 
+Il y a beaucoup de propriétés CSS et, comme je vous l'ai dit, 
+je ne vous obligerai pas à les connaître toutes par cœur.
+Les valeurs : pour chaque propriété CSS, on doit indiquer une valeur. 
+Par exemple, pour la propriété color, il faut indiquer le nom de la couleur. 
+Pour font-size, il faut indiquer quelle taille on veut, etc.*/
+
+p, h1 /*Balise*/, .intro /*class*/ #logo /*id*/ * /*Selecteur universel  (toutes les balises sans exception)*/
+h3 em /*A B (em a l'interieur de h3)*/ h3 + p /*A + B (p situe apres h3)*/
+a[title] /*a[attribut] (balises a qui possedent un attribut title)*/ 
+a[title="Cliquez ici"] /*a[attribut="valeur"](balises a qui possedent un attribut title avec valeur cliquez ici)*/
+a[title*="ici"] /*a[attribut*="valeur"] (balises a qui possedent un attribut title avec le mot ici)*/
+
+a:hover /*pseudo-format sur a : au survol de la souris*/
+a:active /*pseudo-format uniquement sur a : lorsque le lien a ete clique (reste pas longtemps)*/
+a:focus /*pseudo-format : losrque le lien est selectionne*/
+a:visited /*pseudo-format : apres que la lien est ete consulte*/
+
+section:nth-child(2) /*Selectionne le deuxieme element section*/
+:required /*Element requis dans formulaire*/
+:invalid /*Element invalide dans formulaire*/
+{
+    color: blue; /*Couleur du texte en bleu*/
+
+    font-size: /*taille texte absolue en px, cm, mm em, ex, %,...*/ 16px 1.2em;
+
+    font-size: /*taille texte relative avec xx-small, x-small, small, medium, large, x-large, xx-large*/ small;
+
+    font-family: Arial, "Comic Sans Ms", Serif;/*police : Arial, Arial Black, Comic Sans MS, Courier New, 
+    Georgia, Impact, Times New Roman, Trebuchet MS, Verdana, Serif (police par defaut)*/
+
+    font-style: /*italique*/ italic / oblique / normal;
+
+    font-weight: /*gras*/ bold / normal;
+
+    text-decoration: /*soulignement*/ underline / line-through / overline / blink / none;
+
+    text-align: /*alignement du texte (balises unline : a, span, em, strong,... non modifiables)
+    （utilisable sur balises block : div, h1, p,...*/ left / center / right / justify; 
+
+    float: /*flottement, habillage*/ left / right;
+
+    clear: /*stope le float*/ left / right / both;
+
+    color: /*couleur du texte en rgb (entre 0 et 255)*/ rgb(0, 0, 0) /
+    rgba(255, 0, 0, 0.5) /*rgb + transparence*/ / #FFFFFF /*hexadecimale*/ / 
+    red /*voir photo pour les couleurs en lettres*/;
+    /* https://www.webpagefx.com/web-design/color-picker/ plus extension colorzilla*/
+
+    background-color: /*Couleur d'arriere plan*/ idem que pour color;
+
+    background-image: /*Image de fond soit en absolu soit en relatif*/ url("images/neige.jpg");
+
+    background-attachment: fixed; /*Le fond restera fixe, ne suivra pas le texte lors du scroll*/
+
+    background-repeat: /*Controle effet mosaique*/ no-repeat / repeat-x /*repete sur la premiere ligne*/ 
+    / repeat-y /*Repete sur la premiere colonne*/ / repeat /*defaut*/ ; 
+
+    background-position: /*Position du baclkground*/ top / bottom / left / center / right 
+    /*ou combinaisons ex : top right*/ / 30px 50px /*30px de la gauche 50px du haut*/;
+
+    background: /*Superpropriete permettant de rassembler les proprietes de background*/ 
+    url("neige.,jpg") fixed no-repeat, /*possibilite de mettre plusieurs images separees par virgules*/ url("ex.jpg");
+
+    opacity: /*transparence d'un element de 0 (transparent) a 1 (opaque, defaut)*/ 0.6;
+
+    border: /*superpropriete pour les bords de l'element*/ 3px /*largeur*/ blue /*couleur*/ 
+    none /*type de bordure, voir photo*/;
+
+    border-left: / border-right / border-top / border-bottom: /*bord uniquement a gauche, droite,...*/ 3px blue solid;
+
+    border-top-color: / border-right-width: etc /*modifier separement les cotes du bord*/;
+
+    border-radius: /*Propriete arrondie pour le bord*/ 20px /*ou courbe elliptique*/ 20px / 10px
+    /*ou indiquer pour chaque angle dans l'ordre :*/ 10px /*HG*/ 5px /*HD*/ 10px /*BD*/ 5px /*BG*/;
+
+    box-shadow: /*superpropriete  ombre du bord : dans l'ordre :*/ 6px /*decalage horizontal*/
+    6px /*decalage vertical*/ 0px /*adoucissement du degrade*/ black /*couleur*/ 
+    inset /*facultatif : ombre a l'interieur du bloc*/;
+
+    text-shadow: /*ombre du texte, idem que pour box-shadow*/ blablabla;
+
+    width: /*largeur (sans marges)*/ 50%; / height: /*hauteur (sans marges)*/ 600px;
+
+    min-width: /*dimensions limites (pour s'adapter aux navigateurs*// max-width: / min-height: / max-height:
+
+    padding: /*Marge interieure*/ 12px / 2px 0 3px 1px /*Haut, Droite, Bas, Gauche*/;
+
+    margin: /*Marge exterieure*/ 50px / 2px 0 3px 1px;
+
+    padding-bottom: / margin-left: /*Modifier juste un cote de la marge*/;
+
+    margin: auto /*Centre le bloc a condition d'avoir determine width*/;
+
+    overflow: /*Decide que faire lorsque le bloc deborde*/ visible /*Defaut, texte sort du bloc*/ /
+    hidden /*Texte coupe*/ / scroll /*Coupe avec barre de defilement*/ / auto /*Natigateur choisit*/;
+
+    word-wrap: /*Cesure forcee d'un mot s'il depace d'un bloc*/ break-word;
+
+    list-style-type: none /*retire les puces*/;
+
+
+    FLEXBOX
+    display: flex /*Mets les elements en flex : 
+    positionne les blocs du conteneur selectionne cote a cote = flexbox*/;
+
+    flex-direction: /*Positionne les elements :*/ column /*sur une colonne*/ / row /*sur une ligne, defaut*/ /
+    row-reverse /*sur une ligne, ordre inverse*/ / column-reverse /*sur une colonne, ordre inverse*/;
+
+    flex-wrap: /*Force la cesure des blocs s'ils ne tiennent plus dans le conteneur :*/ wrap /*Retour a la ligne*/ /
+    nowrap /*pas de retour a la ligne, defaut*/ /  wrap-reverse /*Retour a la ligne a l'envers*/;
+
+    /*Axe principal = axe sur lequel les elements sont organises*/
+
+    justify-content: /*Aligne sur l'axe principal*/ flex-start /*Du debut, defaut*/ / flex-end /*A la fin*/ /
+    center /*Au centre*/ / space-between /*Etires sur tout l'axe (espaces entre eux)*/ /
+    space-around /*Etires sur tout l'axe (espaces entre eux et les bords)*/; /*voir photo*/
+
+    align-items: /*Aligne sur l'axe secondaire*/ stretch /*Etires sur tout l'axe, defaut*/ / flex-start /
+    flex-end / center / baseline /*Sur la ligne de base (+/- = flex-start)*/;
+
+    align-self: /*Exception pour un seul des elements sur l'axe secondaire, idem que pour aling-items*/ stretch;
+
+    align-content: /*Reparti les lignes s'il y en a plusieurs, voir photo*/ stretch /*defaut*/;
+
+    order: 3; /*change l'ordre des elements*/
+
+    flex: 2; /*superpropriete melangeant flex-grow, flex-shrink et flex-basis permettant de grossir
+    un element par rapport aux autres*/
+
+
+    display: /*transforme l'element d'un type ves un autre*/ inline /*elements d'une ligne, les uns a cote 
+    des autres*/ / block /*elements en forme de blocs, un en dessous des autres, possibilite de redimension*/ 
+    / inline-block /*elements positionnes les uns a cotes des autres mais qui peuvent etre redimensionnes*/ 
+    / none /*elements non affiches*/;
+
+    vertical-align: /*Modifie l'alignement vertical des elements*/ baseline /*aligne de la base de l'element
+    avec celle de l'element parent, defaut*/ / top /*aligne en haut*/ / middle /*centre verticalement*/ /
+    bottom /*aligne en bas*/ 50px / 80%;
+
+    position: absolute /*Place un element n'importe ou sur la page*/ fixed / /*identique au postionnement 
+    absolu mais l'element reste toujours visible meme si on descends plus bas dans la page 
+    +/- = background-attachemnt : fixed*/ / relative /*Decale l'element par rapport a sa position normale*/;
+
+    /*Utiliser au moins une de ces 4 propritetes avec position :*/
+    top: 0px; /*positionnement par rapport au haut de la page*/
+    bottom: 50%;
+    right: 0px;
+    left: 0px;
+
+    z-index: 5; /*Empeche l'entrevauchement des elements, l'element ayant la valeur la plus haute passera dessus*/
+
+    border-collapse: /*Pour tableaux, colle les bordures*/ collapse ou separate /*defaut*/;
+
+    caption-side: /*Place le titre d'un tableau en haut ou un bas de celui ci*/top ou bottom;
+}
+
+
+@font-face {
+    font-family: 'MaSuperPolice';
+    src: url('MaSuperPolice.eot') format('eot'),
+         url('MaSuperPolice.woff') format('woff'),
+         url('MaSuperPolice.ttf') format('truetype'),
+         url('MaSuperPolice.svg') format('svg');
+} /*Demande au navigateur de telecharger une police (il faudra ensuite la mettre entre '' dans font-family)
+https://www.fontsquirrel.com/
+http://www.dafont.com/fr/
+.ttf: TrueType Font. Fonctionne sur IE9 et tous les autres navigateurs.
+.eot: Embedded OpenType. Fonctionne sur Internet Explorer uniquement, toutes versions. Ce format est propriétaire, produit par Microsoft.
+.otf: OpenType Font. Ne fonctionne pas sur Internet Explorer.
+.svg: SVG Font. Le seul format reconnu sur les iPhones et iPads pour le moment.
+.woff: Web Open Font Format. Nouveau format conçu pour le Web, qui fonctionne sur IE9 et tous les autres navigateurs.*/
+
+/*Polices personnalisées.
+Définition des styles principaux de la page (largeur du site, fond, couleur par défaut du texte).
+En-tête et liens de navigation.
+Bannière (représentant le pont de San Francisco).
+Section principale du corps de page, au centre.
+Pied de page (footer).*/

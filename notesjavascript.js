@@ -79,6 +79,35 @@ Boucles :
             // instruction executées tant que la condition est vérifiée
         } /* Faire attention de pas modifier le compteur dans la boucle
     
+
+Chaines de caracteres :
+    -Caracteres speciaux : 
+        -Utiliser */ \ /*
+        -*/ \n /* Saut de ligne
+        -*/ \0 /* Caractere NUL
+        -*/ \'' /* Apostrophe (Ne mettre qu'un)
+        -*/ \"" /* Guillemet (Ne mettre qu'un)
+        -*/ \\ /* Antislash
+        -*/ \r /* Retour chariot
+        -*/ \v /* Tabulation verticale
+        -*/ \t /* Tabulation
+        -*/ \b /* Retour arriere
+        -*/ \f /* Saut de page (form feed)
+        -*/ \uXXX /* Point de code Unicode
+        -*/ \xXX /* Caractere Latin-1
+    -longueur d'une chaine :
+        -*/ "ABC".lenght /* = 3
+    -Cassure : 
+        -*/ "Bora-Bora".toLowerCase(); /* Conversion en minuscules bora-bora
+        -*/ "Bora-Bora".toUpperCase(); /* Conversion en majuscules BORA-BORA
+    -Attention, lorsqu'on compare des chaines, c'est sensible a la casse :
+        -*/ "Bora-Bora" === "bora-bora" /* = false
+    -Accéder à un caractère à partir de son indice :
+        -*/ "Bora-Bora".charAt(0) /* B
+        -*/ "Bora-Bora"[1] /* o
+        -*/ "Bora-Bora"[longueurSport - 1] /* a
+    Parcourir une chaine caractere par caractere :
+        -*/ for (var i = 0; i < "odile".length; i++) { console.log("odile"[i]); } /* 
         
 -*/  /*
         
@@ -90,11 +119,7 @@ Vocabulaire :
     -Incrémentation : rajout d'une valeur à une variable
     -Type dynamique : language ne demandant pas de définir le type de variable
     -Type statique : language demandant le type de variable
-    -Repetez des intrsutions  :
-        -Boucles while
+    -Notation pointee : fait d'ajouter des points comme */ .lenght /*
+    -Methodes : de type */ .toUpperCase() /*
         
-Vidéos à voir :
-    -1, 2, 3, codez !
-    -Jouez avec les variables 
-    
 */

@@ -140,11 +140,14 @@ Chaines de caracteres :
                 return description;
             } //Cette propriete est appele methode
         }; /*
+    -Prototype :
+        -*/ var unObjet = {a: 2 };
+            // Crée unAutreObjet avec unObjet comme prototype
+            var unAutreObjet = Object.create(unObjet); /*
 
 
 -*/  /*
-        
-        
+
         
 Vocabulaire :
     -Indentation : tabulation (tab)
@@ -158,5 +161,8 @@ Vocabulaire :
         -Propriete dont la valeur est une fonction
     -Constructeur : Fonction qui cree un objet, l'initialise
     -Instanciation : Creation d'un objet a partir d'un constructeur
+    -Prototype : Modele d'objet
+    -Reference : lien vers un autre objet
+    -Delegation/heritage : un objet délègue une partie de son fonctionnement à son prototype
         
 */

@@ -109,6 +109,25 @@ Chaines de caracteres :
     Parcourir une chaine caractere par caractere :
         -*/ for (var i = 0; i < "odile".length; i++) { console.log("odile"[i]); } /* 
     
+Fonctions :
+    -Déclaration :
+        -*/ function maFonction() {/*Instructions*/} /*
+    -Appel :
+        -*/ maFonction(); /*
+    -Instructions de fonctions :
+        -*/ return valeurRetour; /* Retourne la valeur valeurRetour
+    -Fonction paramètrique :
+        -Déclaration :
+            -*/ function maFonction(param1, param2, ...) {/* Instructions pouvant utiliser param1, param2, ...*/} /* 
+        -Appel : 
+            -*/ maFonction(arg1, arg2, ...); /* param1 reçoit la valeur de arg1, param2 la valeur de arg2, ...
+    -Fonctions prédéfinies :
+        -*/ prompt(); /* Affiche une boîte de dialogue pour demander à l'utilisateur de saisir une vcaleur
+        -*/ alert(); /* Affiche une boîte de dialogue afficant un message
+        -*/ Math.min(19, 9); /* 9, détermine le minimum parmis les arguments donnés
+        -*/ Math.random(); /* Choisis un nombre aléatoire entre 0 et 1
+
+    
 -Objets :
     -Declaration :
         -*/ var stylo = {

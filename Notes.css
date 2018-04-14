@@ -159,6 +159,17 @@ section:nth-child(2) /*Selectionne le deuxieme element section*/
     caption-side: /*Place le titre d'un tableau en haut ou un bas de celui ci*/top ou bottom;
 }
 
+::selection{ /* Selectionne la selection de texte */
+  background-color: #444;
+  color: white;
+}
+
+/* Selectionne la selection de texte pour Firefox */
+::-moz-selection {
+  background-color: #444;
+  color: white;
+}
+
 
 @font-face {
     font-family: 'MaSuperPolice';

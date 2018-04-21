@@ -164,6 +164,17 @@ Fonctions :
             // Crée unAutreObjet avec unObjet comme prototype
             var unAutreObjet = Object.create(unObjet); /*
 
+Tableaux : 
+	-Syntaxe :
+		-*/ var tabs = ["Bonjour", 7, true]; /* 
+		-Possibilité de mettre des valeurs de types différents
+		-Par convention, nommer les variables de tableaux au pluriel
+	-Méthodes tableaux :
+		-*/ tabs.length /* Longueur du tableau : 3
+		-*/ tabs.forEach(function(tab) {console.log(tab);}); /* forEach applique une fonction pour chaque éléments du tableau
+		-Pour forEach, bien distinguer tab et tabs
+		-*/ tabs.push("Salut"); /* Ajoute une valeur a la fin du tableau
+
 
 -*/  /*
 

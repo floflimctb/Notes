@@ -1,0 +1,25 @@
+/*
+
+CLASSES :
+	col / row :
+		col-xs-* : *ème colonne pour petit écran (<768)
+		col-sm-* : écran réduit (>=768)
+		col-md-* : écran moyen (>=992)
+		col-lg-* : grand écran (>=1200)
+
+		col-lg-offset-* : Saute * colonnes
+		col-lg-push-* : Décale une colonne vers la droite
+		col-lg-pull-* : Inverse de push
+	Conteneur (de la grille) :
+		container : contient et centre la grille sur une largeur fixe, qui s'adapte en fonction de la largeur de l'écran :
+			Petit écran : automatique
+			Ecran réduit : 750
+			Ecran moyen : 970
+			Grand écran : 1170
+		container-fluid : la grille occupe toute la largeur
+	clearfix : Réinitialise les éléments flottants qui suivent pour les ramener dans le flux normal (évite qu'ils viennent recouvrir les éléments précédents)
+	visible-lg-* (block, inline ou inline-block) : fait apparaître un élément pour seulement la taille d'écran donnée
+	hidden-lg-* : fait disparaître un élément pour une taille d'écran donné
+	
+	
+*/

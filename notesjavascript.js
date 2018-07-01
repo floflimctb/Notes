@@ -12,6 +12,7 @@ Types de valeurs :
     -Affichage d'une valeur :
         -*/ console.log("Bonjour !"); /*
         -*/ console.log(9 + 4); /*
+        -*/ console.error("Erreur"); /* Affichage d'une erreur dans la console
 
 Commentaires :
     -// pour une ligne
@@ -96,7 +97,7 @@ Chaines de caracteres :
         -*/ \uXXX /* Point de code Unicode
         -*/ \xXX /* Caractere Latin-1
     -longueur d'une chaine :
-        -*/ "ABC".lenght /* = 3
+        -*/ "ABC".length /* = 3
     -Cassure : 
         -*/ "Bora-Bora".toLowerCase(); /* Conversion en minuscules bora-bora
         -*/ "Bora-Bora".toUpperCase(); /* Conversion en majuscules BORA-BORA
@@ -174,6 +175,22 @@ Tableaux :
 		-*/ tabs.forEach(function(tab) {console.log(tab);}); /* forEach applique une fonction pour chaque éléments du tableau
 		-Pour forEach, bien distinguer tab et tabs
 		-*/ tabs.push("Salut"); /* Ajoute une valeur a la fin du tableau
+
+
+
+
+
+
+/*------------------------------------------------------------------------*/
+/*------------------Document Object Model (DOM) :-------------------------*/
+/*----------------------------------------------------------------------*//*
+
+
+
+    		
+
+
+
 
 
 -*/  /*

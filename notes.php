@@ -54,6 +54,11 @@ BOUCLES :
 	-*/ for ($i=0; $i < ; $i++) { }  /* Boucle : for
 	for (initialisation: valeur donnée au départ; condition: condition pour éxécuter la boucle; modification à chaque tour)
 
+TRY CATCH :
+	-*/ try { /*Instructions*/ }
+		catch () { /*Instructions*/ } /*
+		-PHP essaie d'éxécuter les instruction qui se trouvent dans try, s'il n'y arrive pas, il éxécute le catch
+
 TABLEAUX :
 	-Tableaux numérotés :
 		-*/ $prenoms = array ('Francois', 'michel', 'nicole'); /* Tableau (array) numéroté (commence à la case 0, puis dans l'ordre)
@@ -94,6 +99,8 @@ FONCTIONS :
 		-*/ $chaine = strtolower($chaine); /* Met tous le caractères d'une chaîne en minuscule
 		-*/ $chaine = strtoupper($chaine); /* Met tous le caractères d'une chaîne en majuscule
 		-*/ $annee = date('Y'); /* Donne l'année avec Y ou bien le mois avec m, le jour avec d, l'heure avec H, la minute avec i
+		-*/ time(); /* Nombre de secondes qui s'écoulent depuis le 1 janvier 1970 (timestamp, augmente toutes les secondes), on peut lui ajouter des secondes pour indiquer une échéance
+		-*/ die('erreur'); /* Arrête l'éxécution et affiche un message
 	-Ses propres fonctions :
 		-La déterminer :
 			-*/ function DireBonjour ($nom) { echo 'Bonjour ' . $nom . ' !<br />'; } /*
@@ -111,6 +118,7 @@ ERREURS :
 	-*/ Warning: Wrong parameter count for fonction() in fichier.php on line 112 /* Oubli ou rajout de paramètres pour une fonction
 	-*/ Cannot modify header information - headers already sent by ... /* Headers à mettre avant quoi que ce soit d'autre
 	-*/ Fatal error: Maximum execution time exceeded in fichier.php on line 57 /* Boucle infinie
+	-*/ Warning: fopen(compteur.txt): failed to open stream: Permission denied /* Pas la permission CHMOD
 
 TRANSMETTRE LES DONNEES :
 	-Par URL :
@@ -168,13 +176,6 @@ TRANSMETTRE LES DONNEES :
 		-En pratique, il y aura aussi des problèmes par rapport aux accents dans les noms de fichiers, des noms de fichiers identiques,... La solution est de choisir nous-même le nom du fichier à stocker. 
 		-Plus d'infos : https://openclassrooms.com/courses/1085676-upload-de-fichiers-par-formulaire
 
-CONNARDS D'UTILISATEURS :
-	-Vérifier -*/ isset() /*
-	-Faille XSS (cross-site scripting) :
-		-Empêcher l'injection HTML
-			-*/ htmlspecialchars() /* Provoque l'affichage de la balise plutôt que les prendre en compte
-			-*/ strip_tags() /* Cache les balises
-
 VARIABLES SUPERGLOBALES : 
 	-*/ $_SERVER /* Valeurs renvoyées par le serveur
 		-*/ $_SERVER['REMOTE_ADDR'] /* Adresse IP du client qui a demandé à voir la page
@@ -186,20 +187,112 @@ VARIABLES SUPERGLOBALES :
 	-*/ $_FILES /* Liste des fichiers qui ont été envoyés via le formulaire précédent
 
 SESSIONS :
-	-*/ session_start(); /* Démarre le système de sessions : si le visiteur vient d'arriver sur le site, alors un ID de session (PHPSESSID) est généré. Appeler cette fonction au tout début de chacune des pages (avant balise doctype) et on peut alors utiliser des variables de session : */ $_SESSION['nom'] /*
-	-*/ session_destroy(); /* Ferme la session du visiteur : cette fonction est automatiquement appelée lorsque le visiteur ne charge plus de page de votre site pendant plusieurs minutes (c'est le timeout), mais vous pouvez aussi créer une page « Déconnexion » si le visiteur souhaite se déconnecter manuellement
+	-*/ session_start(); /* Démarre le système de sessions : si le visiteur vient d'arriver sur le site, alors un ID de session (PHPSESSID) est généré
+		-Appeler cette fonction au tout début de chacune des pages (avant balise doctype)
+		-On peut alors utiliser des variables de session : */ $_SESSION['nom'] /*
+	-*/ session_destroy(); /* Ferme la session du visiteur
+		-Automatiquement appelée lorsque le visiteur ne charge plus de page de votre site pendant plusieurs minutes (c'est le timeout), mais vous pouvez aussi créer une page « Déconnexion » si le visiteur souhaite se déconnecter manuellement
 
 COOKIES :
-	setcookie('pseudo', 'M@teo21', time() + 365*24*3600); //Creation d'un cookie qui expirera dans un an de la date actuelle
-	setcookie('pseudo', 'M@teo21', time() + 365*24*3600, null, null, false, true); //parametre non utilises : null puis parametre true : httponly permet de securiser contre les failles XSS
-	 echo $_COOKIE['pseudo']; //Afficher un cookie
+	-Fichiers que l'on fera sauvegarder à l'utilsateur sur son ordinateur pour les réuitiliser après
+	-Un fichier à la fois
+	-Comme pour les sessions à initiliser avant html
+	-*/ setcookie('nom', 'valeur', date dexpiration); /* Creation d'un cookie :
+		-*/ setcookie('pseudo', 'M@teo21', time() + 365*24*3600); /* Creation d'un cookie qui expirera dans un an de la date actuelle
+		-On peut modifier les cookies en réecrivant un setcookie avec le même name mais la nouvelle value :
+			-*/ setcookie('pseudo', 'floflim', time()); /* Le pseudo est passé de M@teo21 à floflim
+	-*/ setcookie('pseudo', 'M@teo21', time() + 365*24*3600, null, null, false, true); /* Utilisation du httpOnly : rend le cookie inaccessibl en js, évite les failles XSS : Paramètres non utilisés : null (ignorer) puis; dernier paramètre, true, active httponly
+	-*/ echo $_COOKIE['pseudo']; /* Afficher un cookie : floflim ici
+
+LIRE ET ECRIRE DANS UN FICHIER :
+	-Afin de garder certaines informations (comme un message dans un forum), PHP doit écrir certains fichier dans le disque dur :
+		-Pour cela, on doit modifier le CHMOD (modifier les droits sous Linux) du fichier ou dossier
+		-CHMOD :
+			-Nombre à trois chiffres attribué à un fichier
+				-1er chiffre : droits du propriétaires : 7 = tous les droits
+				-2ème chiffre : droits du groupe d'utilisateurs
+				-3ème chiffre : permissions publiques (tout le monde, même PHP),par défaut 5, donc à mettre à 7
+			-Selon sa valeur, Linux autorisera ou non la modification du fichier
+			-Or, Linux n'accepte pas les modifications venant de PHP, on doit donc modifier le CHMOD
+			-Pour cela, on utilise les logiciels FTP (il faut être hébergé sur un serveur, clique droit sur le fichier et permissions)
+			-Si on a pas modifié la valeur : on a l'erreur : */ Warning: fopen(compteur.txt): failed to open stream: Permission denied /*
+	-Ouvrir et fermer un fichier :
+		-1ère étape : Ouvrir le fichier :
+			-*/ $monfichier = fopen('compteur.txt', 'r+'); /* On indique le fichier à ouvrir et comment l'ouvrir :
+				-*/ 'r' /* Lecture seul, seulement lire le fichier
+				-*/ 'r+' /* Lecture et écriture, assez souvent en pratique
+				-*/ 'a' /* Ecriture seule; avantage : si le fichier n'existe pas, il est automatiquement créé
+				-*/ 'a+' /* Lecture et écriture, si le fichier n'existe pas, il est créé Automatiquement
+					-Attention : le répertoire doit avoir un CHMOD à 777 dans ce cas ! À noter que si le fichier existe déjà, le texte sera rajouté à la fin.
+		-2ème étape : lecture / modifications du fichier :
+			-Lecture :
+				-En général on met une information par ligne et on ne stoque pas beaucoup d'informations, sinon, on utilise une base de données
+				-*/ fgetc($monfichier); /* Lire caractère par caractère, il faudrait faireune boucle, un peu lourd alors moins utilisée
+				-*/ fgets($monfichier); /* Lire ligne par ligne (arrête la lecture à un saut de ligne), si plusieurs lignes, faire une boucle
+				-*/ $ligne = fgets($monfichier); /* On lit la première ligne du fichier
+			-Ecriture :
+				-*/ fputs($monfichier, 'Texte à écrire'); /*
+				-Attention à où l'on écrit le texte :
+					-Quand on lit avec fgets un ligne, le curseur reste à le fin de la ligne, on écrirai donc à la suite
+					-On utilise alors */ fseek($monfichier, 0); /* qui permet de déplacer le curseur, avec 0, on écrit au début de la ligne et on supprime donc les anciens caractère, ou remplace plutôt
+		-3ème étape : Fermer le fichier :
+			-*/ fclose($monfichier); /*
+	-Exemple : script qui compte le nomre de vues d'une page :
+		-*/ $monfichier = fopen('compteur.txt', 'r+');
+			$pages_vues = fgets($monfichier); // On lit la première ligne (nombre de pages vues)
+			$pages_vues += 1; // On augmente de 1 ce nombre de pages vues
+			fseek($monfichier, 0); // On remet le curseur au début du fichier
+			fputs($monfichier, $pages_vues); // On écrit le nouveau nombre de pages vues
+			fclose($monfichier);
+			echo '<p>Cette page a été vue ' . $pages_vues . ' fois !</p>'; /*
+
 
 SQL
-$bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', ''); //Se connecter a sql
-$bdd->query('SELECT * FROM jeux_video'); //Ecrire du sql 
-while ($donnees = $reponses->fetch())
-{
-	echo '<p>' . %donnees['nom'] . '</p>';
-}
+	-Voc SGBD : Systèmes de Gestion de Bases de Données
+	-Bases langage SQL :
+		-*/ SELECT id, auteur, message, datemsg FROM livreor ORDER BY datemsg DESC  /*
+	-Image armoire :
+		-L'armoire, c'est la base dans le langage SQL, le gros meuble dans lequel les secrétaires ont l'habitude de classer les informations
+		-Il y a plusieurs tiroirs, un tiroir, en SQL, c'est ce qu'on appelle une table
+			-Chaque tiroir contient des données différentes, par exemple, on peut imaginer un tiroir qui contient les pseudonymes et infos sur vos visiteurs, un autre qui contient les messages postés sur votre forum…
+		-Mais que contient une table ? C'est là que sont enregistrées les données, sous la forme d'un tableau. Dans ce tableau, les colonnes sont appelées des champs, et les lignes sont appelées des entrées.
+			-Exemple de tables :
+				-news : stocke toutes les news qui sont affichées à l'accueil
+				-livre_or : stocke tous les messages postés sur le livre d'or
+				-forum : stocke tous les messages postés sur le forum
+				-newsletter : stocke les adresses e-mail de tous les visiteurs inscrits à la newsletter
+
+PHPMYADMIN :
+	-Pour se connecter : mettre root en pseudo et rien en mot de passe
+	-Pour l'id d'une table
+		-Mettre l'index en primary, c'est la clé primaire
+		-Cocher A_I : auto incrémentation
+
+LIRE DES DONNEES :
+	-Pour se connecter à MySQL avec POD, il faut connaître :
+		-Le nom de l'hôte : adresse de l'ordinateur sur laquelle MySQL est installé (localhost si sur même ordinateur)
+		-La base : nom de la base de donnée
+		-Le login : pour WAMP, root
+		-Le mot de passe : pour WAMP, rien
+	-*/ $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', ''); /* Se connecter à MySQL en local
+	-*/ $bdd = new PDO('mysql:host=sql.hebergeur.com;dbname=mabase;charset=utf8', 'pierre.durand', 's3cr3t'); /* Se connecter à MySQL avec un site en ligne
+	-Attention aux erreurs, PHP risque d'afficher le mot de passe, utiliser :
+		-*/ try { $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', ''); }
+			catch (Exception $e) { die('Erreur : ' . $e->getMessage()); } /* Si il y a une erreur on arrête l'éxécution et on affiche une erreur
+	-*/ $bdd->query('SELECT * FROM jeux_video'); /* Ecrire du sql 
+	-*/ while ($donnees = $reponses->fetch()) { echo '<p>' . %donnees['nom'] . '</p>'; } /*
+
+CONNARDS D'UTILISATEURS :
+	-Toujours vérifier */ isset() /*
+	-Pour formulaires :
+		-Faille XSS (cross-site scripting) :
+			-Empêche l'injection HTML
+				-*/ htmlspecialchars() /* Provoque l'affichage de la balise plutôt que les prendre en compte
+				-*/ strip_tags() /* Cache les balises
+	-Pour cookies :
+		-Utiliser httpOnly : 
+			-*/ setcookie('name', 'value', time() + 2, null, null, false, true); /*
+
+*/
 
 ?>

@@ -101,6 +101,8 @@ FONCTIONS :
 		-*/ $annee = date('Y'); /* Donne l'année avec Y ou bien le mois avec m, le jour avec d, l'heure avec H, la minute avec i
 		-*/ time(); /* Nombre de secondes qui s'écoulent depuis le 1 janvier 1970 (timestamp, augmente toutes les secondes), on peut lui ajouter des secondes pour indiquer une échéance
 		-*/ die('erreur'); /* Arrête l'éxécution et affiche un message
+		-*/ header(); /* Permet d'envoyer ce qu'on appelle des « en-têtes HTTP ». C'est le protocole qu'utilisent le serveur et le client pour échanger des pages web. 
+			-*/ header('Location: minichat.php'); /* Ici, on utilise une des possibilités de HTTP qui commande une redirection via la commande Location
 	-Ses propres fonctions :
 		-La déterminer :
 			-*/ function DireBonjour ($nom) { echo 'Bonjour ' . $nom . ' !<br />'; } /*
@@ -111,14 +113,6 @@ FONCTIONS :
    					$volume = $rayon * $rayon * 3.14 * $hauteur * (1/3); // calcul du volume
    					return $volume; // indique la valeur à renvoyer, ici le volume 
    				} $volume = VolumeCone(3, 1); /*
-
-ERREURS :
-	-*/ Parse error: parse error in fichier.php on line 15 /*Instruction php mal formée : point virgule manquant, oubli de fermer un guillemet, oubli dans la concoctenation (point pour separer les éléments dans echo), accolade mal fermée
-	-*/ Fatal Error: Call to undefined function: fonction_inconnue() in fichier.php on line 27 /* Fonction inconnue
-	-*/ Warning: Wrong parameter count for fonction() in fichier.php on line 112 /* Oubli ou rajout de paramètres pour une fonction
-	-*/ Cannot modify header information - headers already sent by ... /* Headers à mettre avant quoi que ce soit d'autre
-	-*/ Fatal error: Maximum execution time exceeded in fichier.php on line 57 /* Boucle infinie
-	-*/ Warning: fopen(compteur.txt): failed to open stream: Permission denied /* Pas la permission CHMOD
 
 TRANSMETTRE LES DONNEES :
 	-Par URL :
@@ -246,26 +240,10 @@ LIRE ET ECRIRE DANS UN FICHIER :
 			fclose($monfichier);
 			echo '<p>Cette page a été vue ' . $pages_vues . ' fois !</p>'; /*
 
-
-SQL
-	-Voc SGBD : Systèmes de Gestion de Bases de Données
-	-Bases langage SQL :
-		-*/ SELECT id, auteur, message, datemsg FROM livreor ORDER BY datemsg DESC  /*
-	-Image armoire :
-		-L'armoire, c'est la base dans le langage SQL, le gros meuble dans lequel les secrétaires ont l'habitude de classer les informations
-		-Il y a plusieurs tiroirs, un tiroir, en SQL, c'est ce qu'on appelle une table
-			-Chaque tiroir contient des données différentes, par exemple, on peut imaginer un tiroir qui contient les pseudonymes et infos sur vos visiteurs, un autre qui contient les messages postés sur votre forum…
-		-Mais que contient une table ? C'est là que sont enregistrées les données, sous la forme d'un tableau. Dans ce tableau, les colonnes sont appelées des champs, et les lignes sont appelées des entrées.
-			-Exemple de tables :
-				-news : stocke toutes les news qui sont affichées à l'accueil
-				-livre_or : stocke tous les messages postés sur le livre d'or
-				-forum : stocke tous les messages postés sur le forum
-				-newsletter : stocke les adresses e-mail de tous les visiteurs inscrits à la newsletter
-
 PHPMYADMIN :
 	-Pour se connecter : mettre root en pseudo et rien en mot de passe
 	-Pour l'id d'une table
-		-Mettre l'index en primary, c'est la clé primaire
+		-Mettre l'index en primary, c'est la clé primaire, celle qui sert d'ID
 		-Cocher A_I : auto incrémentation
 
 LIRE DES DONNEES :
@@ -274,13 +252,82 @@ LIRE DES DONNEES :
 		-La base : nom de la base de donnée
 		-Le login : pour WAMP, root
 		-Le mot de passe : pour WAMP, rien
-	-*/ $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', ''); /* Se connecter à MySQL en local
+	-*/ $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)); /* Se connecter à la base de donnees en local (A faire qu'une seule fois en debut de page), dernier parametre pour afficher des erreurs plus claires
 	-*/ $bdd = new PDO('mysql:host=sql.hebergeur.com;dbname=mabase;charset=utf8', 'pierre.durand', 's3cr3t'); /* Se connecter à MySQL avec un site en ligne
 	-Attention aux erreurs, PHP risque d'afficher le mot de passe, utiliser :
 		-*/ try { $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', ''); }
 			catch (Exception $e) { die('Erreur : ' . $e->getMessage()); } /* Si il y a une erreur on arrête l'éxécution et on affiche une erreur
-	-*/ $bdd->query('SELECT * FROM jeux_video'); /* Ecrire du sql 
+	-*/ $bdd->query('SELECT * FROM jeux_video'); /* Faire une requete SQL
 	-*/ while ($donnees = $reponses->fetch()) { echo '<p>' . %donnees['nom'] . '</p>'; } /*
+		-*/ $donnees = $reponses->fetch(); /* Renvoie false dans $donnees une fois que toutes les entrees ont ete passees en revue
+	-*/ $reponse->closeCursor(); /* Provoque la fermeture du curseur d'analyse des resultats, a utiliser a chaque fin de requete
+	-Pour eviter injection SQL, les requetes preparees :
+		-1/ on prepare la requete sans sa partie variable : */ $req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ?'); /*
+			-Au lieu d'executer la requete avec query(), on appelle ici prepare()
+		-2/ on execute la requete en appelant execute : */ $req->execute(array($_GET['possesseur'])); /*
+		-Avec marqueur nominatif : 
+			-*/ $req = $bdd->prepare('SELECT nom, prix FROM jeux_video WHERE possesseur = :possesseur AND prix <= :prixmax');
+				$req->execute(array('possesseur' => $_GET['possesseur'], 'prixmax' => $_GET['prix_max'])); /*
+				Les marqueurs nominatifs :posseusseur et :prixmax commencent par des deux-points
+
+ECRIRE DES DONNEES :
+	-Au lieu d'utiliser */ query(); /* on utilisera */ exec(); /*
+		-*/ $bdd->exec('INSERT INTO jeux_video(nom, possesseur) VALUES(\'Battlefield 1942\', \'Patrick\')'); /*
+		-Mais fonctionnement indentique pour les requetes preparees :
+			-*/ $req = $bdd->prepare('INSERT INTO jeux_video(nom, possesseur) VALUES(:nom, :possesseur)');
+				$req->execute(array(
+					'nom' => $nom,
+					'possesseur' => $possesseur,)); /*
+	-Quand on appelle exec(), cela renvoie le nombre d'entrees modifiees :
+		-*/ $nb_modifs = $bdd->exec('UPDATE jeux_video SET possesseur = \'Florent\' WHERE possesseur = \'Michel\'');
+			echo $nb_modifs . ' entrées ont été modifiées !'; /*
+
+
+SQL :
+	BASES :
+		-Voc SGBD : Systèmes de Gestion de Bases de Données
+		-Bases langage SQL :
+			-*/ SELECT id, auteur, message, datemsg FROM livreor ORDER BY datemsg DESC  /*
+		-Image armoire :
+			-L'armoire, c'est la base dans le langage SQL, le gros meuble dans lequel les secrétaires ont l'habitude de classer les informations
+			-Il y a plusieurs tiroirs, un tiroir, en SQL, c'est ce qu'on appelle une table
+				-Chaque tiroir contient des données différentes, par exemple, on peut imaginer un tiroir qui contient les pseudonymes et infos sur vos visiteurs, un autre qui contient les messages postés sur votre forum…
+			-Mais que contient une table ? C'est là que sont enregistrées les données, sous la forme d'un tableau. Dans ce tableau, les colonnes sont appelées des champs, et les lignes sont appelées des entrées.
+				-Exemple de tables :
+					-news : stocke toutes les news qui sont affichées à l'accueil
+					-livre_or : stocke tous les messages postés sur le livre d'or
+					-forum : stocke tous les messages postés sur le forum
+					-newsletter : stocke les adresses e-mail de tous les visiteurs inscrits à la newsletter
+	LIRE DES DONNEES :
+		-Le premier mot de SQL indique le type d'orientation qui doit etre effectue
+			-*/ SELECT nom, possesseur /* On indique apres select quels champs on veut utiliser */ * /* pour prendre tous les champs "prendre tout ce qu'il y a..."
+		-*/ FROM  jeux_video/* "...dans..." fait la liaison entre le nom des champs et le nom de la table
+		-*/ WHERE possesseur='Patrick' /* Liste uniquement les jeux appartenant a Patrick
+			-*/ SELECT * FROM jeux_video WHERE possesseur='Patrick' /* « Sélectionner tous les champs de la table jeux_video lorsque le champ possesseur est égal à Patrick »
+		-*/ AND /* ou bien */ OR /* Pour combiner les conditions, exemple :
+			-*/ SELECT * FROM jeux_video WHERE possesseur='Patrick' AND prix < 20 OR prix > 150 /*
+		-*/ ORDER BY prix/* Ordonner les resultats, rajouter */ DESC /* pour ordre decroissant, possibilite de classer alphabetiquement pour champs textuels
+			-*/ SELECT * FROM jeux_video ORDER BY prix /* « Sélectionner tous les champs de jeux_video et ordonner les résultats par prix croissants »
+		-*/ LIMIT 0, 20 /* Limite les resultats :
+			-Premier chiffre (0) : a quelle entree on commence a lire la table, ici, la premiere entree
+				-Attention : ne correspond pas a champ ID : Correspond au terme du resultat
+			-Second chiffre (20) : Le nombre d'entrees que l'on doit selectionner
+		-*/ SELECT nom, possesseur, console, prix FROM jeux_video WHERE console='Xbox' OR console='PS2' ORDER BY prix DESC LIMIT 0,10 /* "Selectionner les champs nom, possesseur, console, prix dans jeux_video lorsque le champ console est egal a Xbos ou PS2 et ordonner les resultats par prix decroissants et limite les resultats du premier resultat jusqu'au 10eme"
+		-Il faut utiliser dans l'ordre : WHERE puis ORDER BY puis LIMIT
+	ECRIRE DES DONNEES :
+		-*/ INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES('Battlefield 1942', 'Patrick', 'PC', 45, 50, '2nde guerre mondiale') /* Ajouter un element a la BDD
+		-*/ UPDATE jeux_video SET prix = 10, nbre_joueurs_max = 32 WHERE ID = 51 /* Modifier un element de la BDD (au lieu de l'id on peut selectionner le nom ou autre champ, ce qui permettra notamment de changer plusieurs entrees a la fois)
+		-*/ DELETE FROM jeux_video WHERE nom='Battlefield 1942' /* Supprimer une entree
+	-*/ -- /* Commentaire en SQL
+
+ERREURS :
+	-*/ Parse error: parse error in fichier.php on line 15 /*Instruction php mal formée : point virgule manquant, oubli de fermer un guillemet, oubli dans la concoctenation (point pour separer les éléments dans echo), accolade mal fermée
+	-*/ Fatal Error: Call to undefined function: fonction_inconnue() in fichier.php on line 27 /* Fonction inconnue
+	-*/ Warning: Wrong parameter count for fonction() in fichier.php on line 112 /* Oubli ou rajout de paramètres pour une fonction
+	-*/ Cannot modify header information - headers already sent by ... /* Headers à mettre avant quoi que ce soit d'autre
+	-*/ Fatal error: Maximum execution time exceeded in fichier.php on line 57 /* Boucle infinie
+	-*/ Warning: fopen(compteur.txt): failed to open stream: Permission denied /* Pas la permission CHMOD
+	-*/ Fatal error: Call to a member function fetch() on a non-object /* Erreur dans la requete SQL : afficher plus de details : */ $reponse = $bdd->query('SELECT nom FROM jeux_video') or die(print_r($bdd->errorInfo())); /*
 
 CONNARDS D'UTILISATEURS :
 	-Toujours vérifier */ isset() /*
@@ -292,6 +339,9 @@ CONNARDS D'UTILISATEURS :
 	-Pour cookies :
 		-Utiliser httpOnly : 
 			-*/ setcookie('name', 'value', time() + 2, null, null, false, true); /*
+	-Pour BDD :
+		-Injection SQL :
+			-Utiliser requetes preparees, voir LIRE DES DONNEES
 
 */
 

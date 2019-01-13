@@ -257,8 +257,8 @@ LIRE DES DONNEES :
 	-Attention aux erreurs, PHP risque d'afficher le mot de passe, utiliser :
 		-*/ try { $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', ''); }
 			catch (Exception $e) { die('Erreur : ' . $e->getMessage()); } /* Si il y a une erreur on arrête l'éxécution et on affiche une erreur
-	-*/ $bdd->query('SELECT * FROM jeux_video'); /* Faire une requete SQL
-	-*/ while ($donnees = $reponses->fetch()) { echo '<p>' . %donnees['nom'] . '</p>'; } /*
+	-*/ $reponses = $bdd->query('SELECT * FROM jeux_video'); /* Faire une requete SQL : ici, selectionne tout dans jeux_video et le met dans la var $reponses
+	-*/ while ($donnees = $reponses->fetch()) { echo '<p>' . $donnees['nom'] . '</p>'; } /* Affiche tout le contenu de la table jeux_video
 		-*/ $donnees = $reponses->fetch(); /* Renvoie false dans $donnees une fois que toutes les entrees ont ete passees en revue
 	-*/ $reponse->closeCursor(); /* Provoque la fermeture du curseur d'analyse des resultats, a utiliser a chaque fin de requete
 	-Pour eviter injection SQL, les requetes preparees :
@@ -285,6 +285,7 @@ ECRIRE DES DONNEES :
 
 SQL :
 	BASES :
+		-*/ -- /* Commentaire en SQL
 		-Voc SGBD : Systèmes de Gestion de Bases de Données
 		-Bases langage SQL :
 			-*/ SELECT id, auteur, message, datemsg FROM livreor ORDER BY datemsg DESC  /*
@@ -318,7 +319,48 @@ SQL :
 		-*/ INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES('Battlefield 1942', 'Patrick', 'PC', 45, 50, '2nde guerre mondiale') /* Ajouter un element a la BDD
 		-*/ UPDATE jeux_video SET prix = 10, nbre_joueurs_max = 32 WHERE ID = 51 /* Modifier un element de la BDD (au lieu de l'id on peut selectionner le nom ou autre champ, ce qui permettra notamment de changer plusieurs entrees a la fois)
 		-*/ DELETE FROM jeux_video WHERE nom='Battlefield 1942' /* Supprimer une entree
-	-*/ -- /* Commentaire en SQL
+	FONCTIONS :
+		-Fonctions scalaires :
+			-Agissent sur chaque entrée (une a une)
+			-*/ UPPER() /* : Convertit le texte d'un champ en majuscules
+				-*/ SELECT UPPER(nom) AS nom_maj, possesseur, console, prix FROM jeux_video /* UPPER est utilisée sur le champ nom : on récupère tous les noms des jeux en majuscules via un champ virtuel (allias) appelé nom_maj, on peut quand meme recupere les autres champs sans appliquer la fonction
+			-*/ LOWER () /* : convertit le texte d'un champ en minuscules
+			-*/ LENGTH() /* : Donne la longueur d'un champ
+			-*/ ROUND() /* : Arrondit un nombre decimal
+				-*/ SELECT ROUND(prix, 2) AS prix_arrondi FROM jeux_video /* : en parametre, le champ et le nombre de chiffre apres la virgule pour arrondir (25,86999 = 25,87)
+		-Fonctions d'agrégat :
+			-Des calculs sont faits sur l'ensemble de la table pour retourner UNE valeur
+			-*/ AVG() /* : Calculer la moyenne
+				-*/ SELECT AVG(prix) AS prix_moyen FROM jeux_video /* : Syntaxe identique que pour les fonctions scalaires
+				-Contrairement aux fonctions scalaires, NE PAS recuperer d'autres champs en meme temps
+				-Pour l'afficher, comme d'habitude : 
+					-*/ $reponse = $bdd->query('SELECT AVG(prix) AS prix_moyen FROM jeux_video');
+					while ($donnees = $reponse->fetch()) { echo $donnees['prix_moyen']; }
+					$reponse->closeCursor(); /*
+				-Mais privilegier sans boucle car une seule valeur a renvoyer :
+					-*/ $reponse = $bdd->query('SELECT AVG(prix) AS prix_moyen FROM jeux_video');
+					$donnees = $reponse->fetch();
+					echo $donnees['prix_moyen'];
+					$reponse->closeCursor(); /*
+			-*/ SUM() /* : Additionner les valeurs
+			-*/ MAX() /* : Retourner la valeur maximale
+			-*/ MIN() /* : Retourner la valeur minimale
+			-*/ COUNT() /* : Compter le nombre d'entrees
+				-*/ SELECT COUNT(*) AS nbjeux FROM jeux_video /* On lui donne * en entree pour compter le nombre total de jeux
+				-*/ SELECT COUNT(*) AS nbjeux FROM jeux_video WHERE possesseur='Florent' /* Ou un peut utiliser un where pour savoir plus precisement le nombre de jeu possedes par Florent
+				-S'il y a des NULL dans la table :
+					-Il faut indiquer en parametre le nom du champ a analyser :
+						-*/ SELECT COUNT(nbre_joueurs_max) AS nbjeux FROM jeux_video /* Certain jeux n'ont pas de nombre de joueurs maximum definis, du coup, ici, seuls les entrees avec un nombre de joueur maximum defini seront comptees
+				-Lorsqu'il y a des valeurs identiques (par exemple, en possesseur, plusieurs Florent) et que l'on veut compter seulement les Florent :
+					-On utilise */ DISTINCT /* :
+						-*/ SELECT COUNT(DISTINCT possesseur) AS nbpossesseurs FROM jeux_video /* Comptera le nombre de possesseurs sans compter 2 fois un meme possesseur
+			-*/ GROUP BY /* : 
+				-A utiliser en meme temps qu'une fonction d'agregat
+				-*/ SELECT AVG(prix) AS prix_moyen, console FROM jeux_video GROUP BY console /* Prix moyen des jeux pour chaque console
+			-*/ HAVING /* : 
+				-Idem, ne s'utilise que sur le resultat d'une fonction d'agregat
+				-Equivalent de */ WHERE /* mais agit sur les donnees une fois regroupees
+				-*/ SELECT AVG(prix) AS prix_moyen, console FROM jeux_video GROUP BY console HAVING prix_moyen <= 10 /* 
 
 ERREURS :
 	-*/ Parse error: parse error in fichier.php on line 15 /*Instruction php mal formée : point virgule manquant, oubli de fermer un guillemet, oubli dans la concoctenation (point pour separer les éléments dans echo), accolade mal fermée

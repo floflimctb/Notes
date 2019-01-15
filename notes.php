@@ -361,6 +361,34 @@ SQL :
 				-Idem, ne s'utilise que sur le resultat d'une fonction d'agregat
 				-Equivalent de */ WHERE /* mais agit sur les donnees une fois regroupees
 				-*/ SELECT AVG(prix) AS prix_moyen, console FROM jeux_video GROUP BY console HAVING prix_moyen <= 10 /* 
+	DATES :
+		-Types de dates que peut MySQL:
+			-DATE : stocke une date au format AAAA-MM-JJ
+			-TIME : stocke un moment au format HH:MM:SS
+			-DATETIME : stocke la combinaison d'une date et d'un moment de la journée au format AAAA-MM-JJ HH:MM:SS
+			-TIMESTAMP : stocke le nombre de secondes passées depuis le 1er janvier 1970 à 00h00min00s
+			-YEAR : stocke une année, soit au format AA, soit au format AAAA
+		-Nommer le champ date_creation ou date_modification mais PAS date
+		-champs de type dates = chaînes de caractères : ""
+		-*/ SELECT pseudo, message, date FROM minichat WHERE date = '2010-04-02 15:28:22' /* Renvoie les messages postés le 02/04/2010 à 15h28m22s
+		-*/ SELECT pseudo, message, date FROM minichat WHERE date >= '2010-04-02 15:28:22' /* Renvoie tous les messages postés après cette date
+		-*/ SELECT pseudo, message, date FROM minichat WHERE date >= '2010-04-02 00:00:00' AND date <= '2010-04-18 00:00:00' /* Renvoie tous les messages postés entre le 02/04/2010 et le 18/04/2010
+		-ou bien avec syntaxe */ BETWEEN /* : (aussi possible pour les nombres)
+			-*/ SELECT pseudo, message, date FROM minichat WHERE date BETWEEN '2010-04-02 00:00:00' AND '2010-04-18 00:00:00' /*
+		-*/ INSERT INTO minichat(pseudo, message, date) VALUES('Mateo', 'Message !', '2010-04-02 16:32:22') /*
+		-Les fonctions utiles pour les dates :
+			-*/ NOW() /* : obtenir la date et l'heure actuelles donc en DATETIME
+				-*/ INSERT INTO minichat(pseudo, message, date) VALUES('Mateo', 'Message !', NOW()) /*
+				-*/ CURDATE(), CURTIME() /* donnent la date (DATE), et l'heure (TIME) actuelle respectivement
+			-*/ DAY(), MONTH(), YEAR(), HOUR(), MINUTE(), SECOND() /* : extraire le jour, le mois, l'année, l'heure, la minute, la seconde
+				-*/ SELECT pseudo, message, DAY(date) AS jour FROM minichat /* Recupère le pseudo, le masseg et le numéro du jour où il a été posté
+			-*/ DATE_FORMAT() /* : recupérer la date sous un format choisi
+				-*/ SELECT pseudo, message, DATE_FORMAT(date, '%d/%m/%Y %Hh%imin%ss') AS date FROM minichat /* Récupère les dates avec un champ nommé date sous la forme 11/03/2010 15h47min49s
+				-*/ %d, %m, %Y, %H, %i, %s /* sont remplacés par le jour, le mois, etc; les autres symboles sont affichés tels quels
+			-*/ DATE_ADD(), DATE_SUB() /* : ajouter ou soustraire des dates
+				-*/ SELECT pseudo, minichat, DATE_ADD(date, INTERVAL 15 DAY) AS date_expiration FROM minichat /* le champ date_expiration correspond à la date + 15j où a été posté le message
+				-*/ INTERVAL /* ne doit pas être changé
+				-*/ DAY /* peut être remplacé par */ MONTH, YEAR, HOUR, MINUTE, SECOND /*
 
 ERREURS :
 	-*/ Parse error: parse error in fichier.php on line 15 /*Instruction php mal formée : point virgule manquant, oubli de fermer un guillemet, oubli dans la concoctenation (point pour separer les éléments dans echo), accolade mal fermée

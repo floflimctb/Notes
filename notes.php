@@ -389,6 +389,42 @@ SQL :
 				-*/ SELECT pseudo, minichat, DATE_ADD(date, INTERVAL 15 DAY) AS date_expiration FROM minichat /* le champ date_expiration correspond à la date + 15j où a été posté le message
 				-*/ INTERVAL /* ne doit pas être changé
 				-*/ DAY /* peut être remplacé par */ MONTH, YEAR, HOUR, MINUTE, SECOND /*
+	JOINTURES DE TABLES :
+		-Deux types de jointures :
+			-Jointure interne : Sélectionne que les données qui ont une correspondance entre les 2 tables 
+				-2 possibilités :
+					-*/ WHERE /* à connaître mais obsolète, à choisir, ne pas utiliser
+						-*/ SELECT j.nom AS nom_jeu, p.prenom AS prenom_proprietaire
+							FROM proprietaires AS p, jeux_video AS j
+							WHERE j.ID_proprietaire = p.ID /*
+						-On marque nom_de_la_table.nom_du_champ pour ne pas se mélanger les pinceaux entre les champs de chaque tabes, pour ne pas générer de colonne ambiguë
+						-*/ AS /* est en fait facultatif, on peut donc écrire :
+							-*/ SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+								FROM proprietaires p, jeux_video j
+								WHERE j.ID_proprietaire = p.ID /*
+					-*/ JOIN /* plus efficace et plus lisible
+						-*/ SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+							FROM proprietaires p
+							INNER JOIN jeux_video j
+							ON j.ID_proprietaire = p.ID /* On récupère les données depuis une table principale, proprietaires, et on fait une jointure interne (INNER JOIN) avec une autre table, jeux_videos; et on fait la liaison entre les champs avec ON
+							-Il faut utiliser */ WHERE, ORDER BY, LIMIT /* après la jointure
+			-Jointure externe : Sélectionne toutes les données, même si certaines n'ont pas de correspondance dans l'autre table
+				-Deux écritures possibles :
+					-*/ LEFT JOIN /* : Récupérer toute la table de gauche
+						-*/ SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+							FROM proprietaires p
+							LEFT JOIN jeux_video j
+							ON j.ID_proprietaire = p.ID /* Ici, proprietaires est appelée la table de gauche et jeux_videos, la table de droite. On récupère la table de gauche, donc, proprietaires même si ses derniers n'ont pas d'équivalence dans la table jeux_videos 
+						-Si une personne ne possède aucun jeu, la colonne du jeu sera vide (NULL)
+					-*/ RIGHT JOIN /* : Récupérer toute la table de droite
+						-*/ SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+							FROM proprietaires p
+							RIGHT JOIN jeux_video j
+							ON j.ID_proprietaire = p.ID /* On récupèrera donc tous les jeux vidéos même si ils n'ont pas de propriétaires associés
+						-Un jeu vidéo peut ne pas avoir de propriétaire si :
+							-ID_proprietaire contient une valeurs qui n'a pas d'équivalent 	dans la table propriétaire
+							-soit le champ ID_proprietaire vaut NULL, c'est à dire que la personne ne possède pas le jeu
+
 
 ERREURS :
 	-*/ Parse error: parse error in fichier.php on line 15 /*Instruction php mal formée : point virgule manquant, oubli de fermer un guillemet, oubli dans la concoctenation (point pour separer les éléments dans echo), accolade mal fermée
